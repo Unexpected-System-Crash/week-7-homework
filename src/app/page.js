@@ -1,3 +1,4 @@
+//import all of the important stuff
 import RestaurantListings from "@/src/components/RestaurantListings.jsx";
 import { getRestaurants } from "@/src/lib/firebase/firestore.js";
 import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp.js";
@@ -11,6 +12,7 @@ export const dynamic = "force-dynamic";
 // This line also forces this route to be server-side rendered
 // export const revalidate = 0;
 
+//actually builds the home page of the website
 export default async function Home(props) {
   const searchParams = await props.searchParams;
   // Using seachParams which Next.js provides, allows the filtering to happen on the server-side, for example:

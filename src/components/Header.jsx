@@ -1,4 +1,5 @@
 "use client";
+//import all of the important stuff
 import React, { useEffect } from "react";
 import Link from "next/link";
 import {
@@ -9,6 +10,7 @@ import {
 import { addFakeRestaurantsAndReviews } from "@/src/lib/firebase/firestore.js";
 import { setCookie, deleteCookie } from "cookies-next";
 
+//sets the user session cookie to track the user's login
 function useUserSession(initialUser) {
   useEffect(() => {
     return onIdTokenChanged(async (user) => {
@@ -28,6 +30,8 @@ function useUserSession(initialUser) {
   return initialUser;
 }
 
+
+//handles the user session
 export default function Header({ initialUser }) {
   const user = useUserSession(initialUser);
 
@@ -40,7 +44,8 @@ export default function Header({ initialUser }) {
     event.preventDefault();
     signInWithGoogle();
   };
-
+//builds the top of the webpage 
+//makes all of the buttons work properly
   return (
     <header>
       <Link href="/" className="logo">

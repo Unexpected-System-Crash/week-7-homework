@@ -1,3 +1,4 @@
+//import all of the important stuff
 import { generateFakeRestaurantsAndReviews } from "@/src/lib/fakeRestaurants.js";
 
 import {
@@ -18,6 +19,7 @@ import {
 
 import { db } from "@/src/lib/firebase/clientApp";
 
+//does the restaurant thumbnail images
 export async function updateRestaurantImageReference(
   restaurantId,
   publicImageUrl
@@ -28,6 +30,8 @@ export async function updateRestaurantImageReference(
   }
 }
 
+//update the ratings?
+//doesn't look like this actually gets called
 const updateWithRating = async (
   transaction,
   docRef,
@@ -37,10 +41,13 @@ const updateWithRating = async (
   return;
 };
 
+//adds the reviews to a restaurant
+//don't think this one is used yet either
 export async function addReviewToRestaurant(db, restaurantId, review) {
   return;
 }
 
+//handles the query filters
 function applyQueryFilters(q, { category, city, price, sort }) {
   if (category) {
     q = query(q, where("category", "==", category));
@@ -59,6 +66,7 @@ function applyQueryFilters(q, { category, city, price, sort }) {
   return q;
 }
 
+//gets restaurants based on the user's selected filters
 export async function getRestaurants(db = db, filters = {}) {
   let q = query(collection(db, "restaurants"));
 
@@ -74,28 +82,58 @@ export async function getRestaurants(db = db, filters = {}) {
   });
 }
 
-
+//returns a snapshot of the restaurants
 export function getRestaurantsSnapshot(cb, filters = {}) {
-  return;
+  if (typeof cb !== "function") {
+    console.log("Error: The callback parameter is not a function");
+    return;
+  }
+
+  let q = query(collection(db, "restaurants"));
+  q = applyQueryFilters(q, filters);
+
+  return onSnapshot(q, (querySnapshot) => {
+    const results = querySnapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+        // Only plain objects can be passed to Client Components from Server Components
+        timestamp: doc.data().timestamp.toDate(),
+      };
+    });
+
+    cb(results);
+  });
 }
 
-export async function getRestaurantById(db, restaurantId) {
+//returns the restaurant IDs
+export function getRestaurantSnapshotById(restaurantId, cb) {
   if (!restaurantId) {
     console.log("Error: Invalid ID received: ", restaurantId);
     return;
   }
+
+  if (typeof cb !== "function") {
+    console.log("Error: The callback parameter is not a function");
+    return;
+  }
+
   const docRef = doc(db, "restaurants", restaurantId);
-  const docSnap = await getDoc(docRef);
-  return {
-    ...docSnap.data(),
-    timestamp: docSnap.data().timestamp.toDate(),
-  };
+  return onSnapshot(docRef, (docSnap) => {
+    cb({
+      ...docSnap.data(),
+      timestamp: docSnap.data().timestamp.toDate(),
+    });
+  });
 }
 
+//gets restaurant snapshot IDs
+//this doesn't look like it is used and I think is just a duplicate of the function above
 export function getRestaurantSnapshotById(restaurantId, cb) {
   return;
 }
 
+//gets the reviews based on restaurant IDs 
 export async function getReviewsByRestaurantId(db, restaurantId) {
   if (!restaurantId) {
     console.log("Error: Invalid restaurantId received: ", restaurantId);
@@ -118,6 +156,7 @@ export async function getReviewsByRestaurantId(db, restaurantId) {
   });
 }
 
+//gets a snapshot of the reviews based on restaurant IDs
 export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
   if (!restaurantId) {
     console.log("Error: Invalid restaurantId received: ", restaurantId);
@@ -141,6 +180,7 @@ export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
   });
 }
 
+//allows the addition of a new restaurant
 export async function addFakeRestaurantsAndReviews() {
   const data = await generateFakeRestaurantsAndReviews();
   for (const { restaurantData, ratingsData } of data) {

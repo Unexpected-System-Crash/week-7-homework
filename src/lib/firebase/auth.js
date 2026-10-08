@@ -1,3 +1,4 @@
+//import all of the important stuff
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -7,14 +8,17 @@ import {
 
 import { auth } from "@/src/lib/firebase/clientApp";
 
+//tracks auth state
 export function onAuthStateChanged(cb) {
   return _onAuthStateChanged(auth, cb);
 }
 
+//tracks auth token?
 export function onIdTokenChanged(cb) {
   return _onIdTokenChanged(auth, cb);
 }
 
+//enables signing in with google
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
 
@@ -25,6 +29,7 @@ export async function signInWithGoogle() {
   }
 }
 
+//handles signing out
 export async function signOut() {
   try {
     return auth.signOut();
