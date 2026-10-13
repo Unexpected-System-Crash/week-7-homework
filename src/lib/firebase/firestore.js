@@ -120,6 +120,19 @@ export async function getRestaurants(db = db, filters = {}) {
   });
 }
 
+export async function getRestaurantById(db, restaurantId) {
+  if (!restaurantId) {
+    console.log("Error: Invalid ID received: ", restaurantId);
+    return;
+  }
+  const docRef = doc(db, "restaurants", restaurantId);
+  const docSnap = await getDoc(docRef);
+  return {
+    ...docSnap.data(),
+    timestamp: docSnap.data().timestamp.toDate(),
+  };
+}
+
 //returns a snapshot of the restaurants
 export function getRestaurantsSnapshot(cb, filters = {}) {
   if (typeof cb !== "function") {
