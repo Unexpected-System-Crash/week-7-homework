@@ -166,10 +166,6 @@ export function getRestaurantSnapshotById(restaurantId, cb) {
 }
 
 //gets restaurant snapshot IDs
-//this doesn't look like it is used and I think is just a duplicate of the function above
-export function getRestaurantSnapshotById(restaurantId, cb) {
-  return;
-}
 
 //gets the reviews based on restaurant IDs 
 export async function getReviewsByRestaurantId(db, restaurantId) {
