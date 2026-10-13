@@ -6,7 +6,6 @@ import { getFirestore } from "firebase/firestore";
 
 // This is a Server Action
 // https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions
-
 export async function handleReviewFormSubmission(data) {
     const { firebaseServerApp } = await getAuthenticatedAppForUser();
     const db = getFirestore(firebaseServerApp);

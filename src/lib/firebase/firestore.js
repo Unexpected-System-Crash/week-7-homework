@@ -56,6 +56,7 @@ const updateWithRating = async (
 };
 
 
+
 //adds the reviews to a restaurant
 export async function addReviewToRestaurant(db, restaurantId, review) {
   if (!restaurantId) {
@@ -84,7 +85,6 @@ export async function addReviewToRestaurant(db, restaurantId, review) {
     throw error;
   }
 }
-
 //handles the query filters
 function applyQueryFilters(q, { category, city, price, sort }) {
   if (category) {
