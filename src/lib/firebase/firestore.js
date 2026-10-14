@@ -119,7 +119,7 @@ export async function getRestaurants(db = db, filters = {}) {
     };
   });
 }
-
+//gets a specific restaurant's ID ##
 export async function getRestaurantById(db, restaurantId) {
   if (!restaurantId) {
     console.log("Error: Invalid ID received: ", restaurantId);
@@ -178,7 +178,7 @@ export function getRestaurantSnapshotById(restaurantId, cb) {
   });
 }
 
-//gets restaurant snapshot IDs
+
 
 //gets the reviews based on restaurant IDs 
 export async function getReviewsByRestaurantId(db, restaurantId) {

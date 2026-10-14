@@ -12,6 +12,7 @@ import { updateRestaurantImage } from "@/src/lib/firebase/storage.js";
 
 const ReviewDialog = dynamic(() => import("@/src/components/ReviewDialog.jsx"));
 
+//builds the page for a specific restaurant
 export default function Restaurant({
   id,
   initialRestaurant,

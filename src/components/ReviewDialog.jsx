@@ -25,6 +25,7 @@ const ReviewDialog = ({
     }
   }, [isOpen, dialog]);
 
+  //handles what happens when you click
   const handleClick = (e) => {
     // close if clicked outside the modal
     if (e.target === dialog.current) {

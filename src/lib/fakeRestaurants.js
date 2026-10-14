@@ -1,3 +1,4 @@
+//imports all of the important stuff
 import {
   randomNumberBetween,
   getRandomDateAfter,
@@ -7,6 +8,7 @@ import { randomData } from "@/src/lib/randomData.js";
 
 import { Timestamp } from "firebase/firestore";
 
+//generates fake restaurants and their reviews 
 export async function generateFakeRestaurantsAndReviews() {
   const restaurantsToAdd = 5;
   const data = [];
