@@ -69,7 +69,7 @@ export default function ParkListings({
     sort: searchParams.sort || "",
   };
 
-  const [parks, setParks] = useState(initialParks);
+  const [parks, setPark] = useState(initialParks);
   const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function ParkListings({
       <Filters filters={filters} setFilters={setFilters} />
       <ul className="parks">
         {parks.map((park) => (
-          <RestaurantItem key={park.id} park={park} />
+          <ParkItem key={park.id} park={park} />
         ))}
       </ul>
     </article>
