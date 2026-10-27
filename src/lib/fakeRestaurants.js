@@ -9,28 +9,28 @@ import { randomData } from "@/src/lib/randomData.js";
 import { Timestamp } from "firebase/firestore";
 
 //generates fake restaurants and their reviews 
-export async function createFakeParksAndReviews() {
-  const parksToAdd = 5;
+export async function generateFakeRestaurantsAndReviews() {
+  const restaurantsToAdd = 5;
   const data = [];
 
-  for (let i = 0; i < parksToAdd; i++) {
-    const parkTimestamp = Timestamp.fromDate(getRandomDateBefore());
+  for (let i = 0; i < restaurantsToAdd; i++) {
+    const restaurantTimestamp = Timestamp.fromDate(getRandomDateBefore());
 
     const ratingsData = [];
 
     // Generate a random number of ratings/reviews for this restaurant
     for (let j = 0; j < randomNumberBetween(0, 5); j++) {
       const ratingTimestamp = Timestamp.fromDate(
-        getRandomDateAfter(parkTimestamp.toDate())
+        getRandomDateAfter(restaurantTimestamp.toDate())
       );
 
       const ratingData = {
         rating:
-          randomData.parkReviews[
-            randomNumberBetween(0, randomData.parkReviews.length - 1)
+          randomData.restaurantReviews[
+            randomNumberBetween(0, randomData.restaurantReviews.length - 1)
           ].rating,
-        text: randomData.parkReviews[
-          randomNumberBetween(0, randomData.parkReviews.length - 1)
+        text: randomData.restaurantReviews[
+          randomNumberBetween(0, randomData.restaurantReviews.length - 1)
         ].text,
         userId: `User #${randomNumberBetween()}`,
         timestamp: ratingTimestamp,
@@ -46,17 +46,17 @@ export async function createFakeParksAndReviews() {
         ) / ratingsData.length
       : 0;
 
-    const parkData = {
+    const restaurantData = {
       category:
         randomData.restaurantCategories[
           randomNumberBetween(0, randomData.restaurantCategories.length - 1)
         ],
-      name: randomData.parkNames[
-        randomNumberBetween(0, randomData.parkNames.length - 1)
+      name: randomData.restaurantNames[
+        randomNumberBetween(0, randomData.restaurantNames.length - 1)
       ],
       avgRating,
-      city: randomData.parkCities[
-        randomNumberBetween(0, randomData.parkCities.length - 1)
+      city: randomData.restaurantCities[
+        randomNumberBetween(0, randomData.restaurantCities.length - 1)
       ],
       numRatings: ratingsData.length,
       sumRating: ratingsData.reduce(
@@ -68,11 +68,11 @@ export async function createFakeParksAndReviews() {
         1,
         22
       )}.png`,
-      timestamp: parkTimestamp,
+      timestamp: restaurantTimestamp,
     };
 
     data.push({
-      parkData,
+      restaurantData,
       ratingsData,
     });
   }

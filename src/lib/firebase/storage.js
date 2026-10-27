@@ -2,11 +2,11 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 import { storage } from "@/src/lib/firebase/clientApp";
 
-import { updateParkImageReference } from "@/src/lib/firebase/firestore";
+import { updateRestaurantImageReference } from "@/src/lib/firebase/firestore";
 
-export async function updateParkImage(parkId, image) {
+export async function updateRestaurantImage(restaurantId, image) {
     try {
-      if (!parkId) {
+      if (!restaurantId) {
         throw new Error("No restaurant ID has been provided.");
       }
   
@@ -14,8 +14,8 @@ export async function updateParkImage(parkId, image) {
         throw new Error("A valid image has not been provided.");
       }
   
-      const publicImageUrl = await uploadImage(parkId, image);
-      await updateParkImageReference(parkId, publicImageUrl);
+      const publicImageUrl = await uploadImage(restaurantId, image);
+      await updateRestaurantImageReference(restaurantId, publicImageUrl);
   
       return publicImageUrl;
     } catch (error) {
@@ -23,8 +23,8 @@ export async function updateParkImage(parkId, image) {
     }
   }
   
-  async function uploadImage(parkId, image) {
-    const filePath = `images/${parkId}/${image.name}`;
+  async function uploadImage(restaurantId, image) {
+    const filePath = `images/${restaurantId}/${image.name}`;
     const newImageRef = ref(storage, filePath);
     await uploadBytesResumable(newImageRef, image);
   

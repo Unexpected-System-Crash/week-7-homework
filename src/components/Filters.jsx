@@ -54,9 +54,19 @@ export default function Filters({ filters, setFilters }) {
             label="Category"
             options={[
               "",
-              "lake",
-              "park",
-              "trail",
+              "Italian",
+              "Chinese",
+              "Japanese",
+              "Mexican",
+              "Indian",
+              "Mediterranean",
+              "Caribbean",
+              "Cajun",
+              "German",
+              "Russian",
+              "Cuban",
+              "Organic",
+              "Tapas",
             ]}
             value={filters.category}
             onChange={(event) => handleSelectionChange(event, "category")}
@@ -68,11 +78,17 @@ export default function Filters({ filters, setFilters }) {
             label="City"
             options={[
               "",
-              "Maron",
-              "Ylia",
-              "Frey",
-              "Sram",
-              "Nauwood",
+              "New York",
+              "Los Angeles",
+              "London",
+              "Paris",
+              "Tokyo",
+              "Mumbai",
+              "Dubai",
+              "Amsterdam",
+              "Seoul",
+              "Singapore",
+              "Istanbul",
             ]}
             value={filters.city}
             onChange={(event) => handleSelectionChange(event, "city")}

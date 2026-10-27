@@ -5,21 +5,21 @@
 
 import { React, useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
-import { getParkSnapshotById } from "@/src/lib/firebase/firestore.js";
+import { getRestaurantSnapshotById } from "@/src/lib/firebase/firestore.js";
 import { useUser } from "@/src/lib/getUser";
-import ParkDetails from "@/src/components/RestaurantDetails.jsx";
-import { updateParkImage } from "@/src/lib/firebase/storage.js";
+import RestaurantDetails from "@/src/components/RestaurantDetails.jsx";
+import { updateRestaurantImage } from "@/src/lib/firebase/storage.js";
 
 const ReviewDialog = dynamic(() => import("@/src/components/ReviewDialog.jsx"));
 
 //builds the page for a specific restaurant
 export default function Restaurant({
   id,
-  initialPark,
+  initialRestaurant,
   initialUserId,
   children,
 }) {
-  const [parkDetails, setParkDetails] = useState(initialPark);
+  const [restaurantDetails, setRestaurantDetails] = useState(initialRestaurant);
   const [isOpen, setIsOpen] = useState(false);
 
   // The only reason this component needs to know the user ID is to associate a review with the user, and to know whether to show the review dialog
@@ -33,14 +33,14 @@ export default function Restaurant({
     setReview({ ...review, [name]: value });
   };
 
-  async function handleParkImage(target) {
+  async function handleRestaurantImage(target) {
     const image = target.files ? target.files[0] : null;
     if (!image) {
       return;
     }
 
-    const imageURL = await updateParkImage(id, image);
-    setParkDetails({ ...parkDetails, photo: imageURL });
+    const imageURL = await updateRestaurantImage(id, image);
+    setRestaurantDetails({ ...restaurantDetails, photo: imageURL });
   }
 
   const handleClose = () => {
@@ -49,22 +49,22 @@ export default function Restaurant({
   };
 
   useEffect(() => {
-    return getParkSnapshotById(id, (data) => {
-      setParkDetails(data);
+    return getRestaurantSnapshotById(id, (data) => {
+      setRestaurantDetails(data);
     });
   }, [id]);
 
   return (
     <>
-      <ParkDetails
-        park={parkDetails}
+      <RestaurantDetails
+        restaurant={restaurantDetails}
         userId={userId}
-        handleRestaurantImage={handleParkImage}
+        handleRestaurantImage={handleRestaurantImage}
         setIsOpen={setIsOpen}
         isOpen={isOpen}
       >
         {children}
-      </ParkDetails>
+      </RestaurantDetails>
       {userId && (
         <Suspense fallback={<p>Loading...</p>}>
           <ReviewDialog

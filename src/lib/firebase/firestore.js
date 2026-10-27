@@ -1,5 +1,5 @@
 //import all of the important stuff
-import { createFakeParksAndReviews } from "@/src/lib/fakeRestaurants.js";
+import { generateFakeRestaurantsAndReviews } from "@/src/lib/fakeRestaurants.js";
 
 import {
   collection,
@@ -20,13 +20,13 @@ import {
 import { db } from "@/src/lib/firebase/clientApp";
 
 //does the restaurant thumbnail images
-export async function updateParkImageReference(
-  parkId,
+export async function updateRestaurantImageReference(
+  restaurantId,
   publicImageUrl
 ) {
-  const parkRef = doc(collection(db, "parks"), parkId);
+  const restaurantRef = doc(collection(db, "restaurants"), restaurantId);
   if (restaurantRef) {
-    await updateDoc(parkRef, { photo: publicImageUrl });
+    await updateDoc(restaurantRef, { photo: publicImageUrl });
   }
 }
 
@@ -58,8 +58,8 @@ const updateWithRating = async (
 
 
 //adds the reviews to a restaurant
-export async function addReviewToPark(db, parkId, review) {
-  if (!parkId) {
+export async function addReviewToRestaurant(db, restaurantId, review) {
+  if (!restaurantId) {
     throw new Error("No restaurant ID has been provided.");
   }
 
@@ -68,9 +68,9 @@ export async function addReviewToPark(db, parkId, review) {
   }
 
   try {
-    const docRef = doc(collection(db, "parks"), parkId);
+    const docRef = doc(collection(db, "restaurants"), restaurantId);
     const newRatingDocument = doc(
-      collection(db, `park/${parkId}/ratings`),
+      collection(db, `restaurants/${restaurantId}/ratings`),
     );
 
     // corrected line
@@ -105,8 +105,8 @@ function applyQueryFilters(q, { category, city, price, sort }) {
 }
 
 //gets restaurants based on the user's selected filters
-export async function getParks(db = db, filters = {}) {
-  let q = query(collection(db, "parks"));
+export async function getRestaurants(db = db, filters = {}) {
+  let q = query(collection(db, "restaurants"));
 
   q = applyQueryFilters(q, filters);
   const results = await getDocs(q);
@@ -120,12 +120,12 @@ export async function getParks(db = db, filters = {}) {
   });
 }
 //gets a specific restaurant's ID ##
-export async function getParkById(db, parkId) {
-  if (!parkId) {
-    console.log("Error: Invalid ID received: ", parkId);
+export async function getRestaurantById(db, restaurantId) {
+  if (!restaurantId) {
+    console.log("Error: Invalid ID received: ", restaurantId);
     return;
   }
-  const docRef = doc(db, "parks", parkId);
+  const docRef = doc(db, "restaurants", restaurantId);
   const docSnap = await getDoc(docRef);
   return {
     ...docSnap.data(),
@@ -134,13 +134,13 @@ export async function getParkById(db, parkId) {
 }
 
 //returns a snapshot of the restaurants
-export function getParkSnapshot(cb, filters = {}) {
+export function getRestaurantsSnapshot(cb, filters = {}) {
   if (typeof cb !== "function") {
     console.log("Error: The callback parameter is not a function");
     return;
   }
 
-  let q = query(collection(db, "park"));
+  let q = query(collection(db, "restaurants"));
   q = applyQueryFilters(q, filters);
 
   return onSnapshot(q, (querySnapshot) => {
@@ -158,9 +158,9 @@ export function getParkSnapshot(cb, filters = {}) {
 }
 
 //returns the restaurant IDs
-export function getParkSnapshotById(parkId, cb) {
-  if (!parkId) {
-    console.log("Error: Invalid ID received: ", parkId);
+export function getRestaurantSnapshotById(restaurantId, cb) {
+  if (!restaurantId) {
+    console.log("Error: Invalid ID received: ", restaurantId);
     return;
   }
 
@@ -169,7 +169,7 @@ export function getParkSnapshotById(parkId, cb) {
     return;
   }
 
-  const docRef = doc(db, "parks", parkId);
+  const docRef = doc(db, "restaurants", restaurantId);
   return onSnapshot(docRef, (docSnap) => {
     cb({
       ...docSnap.data(),
@@ -181,14 +181,14 @@ export function getParkSnapshotById(parkId, cb) {
 
 
 //gets the reviews based on restaurant IDs 
-export async function getReviewsByParkId(db, parkId) {
-  if (!parkId) {
-    console.log("Error: Invalid parkId received: ", parkId);
+export async function getReviewsByRestaurantId(db, restaurantId) {
+  if (!restaurantId) {
+    console.log("Error: Invalid restaurantId received: ", restaurantId);
     return;
   }
 
   const q = query(
-    collection(db, "parks", parkId, "ratings"),
+    collection(db, "restaurants", restaurantId, "ratings"),
     orderBy("timestamp", "desc")
   );
 
@@ -204,14 +204,14 @@ export async function getReviewsByParkId(db, parkId) {
 }
 
 //gets a snapshot of the reviews based on restaurant IDs
-export function getReviewsSnapshotByParkId(parkId, cb) {
-  if (!parkId) {
-    console.log("Error: Invalid parkId received: ", parkId);
+export function getReviewsSnapshotByRestaurantId(restaurantId, cb) {
+  if (!restaurantId) {
+    console.log("Error: Invalid restaurantId received: ", restaurantId);
     return;
   }
 
   const q = query(
-    collection(db, "parks", parkId, "ratings"),
+    collection(db, "restaurants", restaurantId, "ratings"),
     orderBy("timestamp", "desc")
   );
   return onSnapshot(q, (querySnapshot) => {
@@ -228,18 +228,18 @@ export function getReviewsSnapshotByParkId(parkId, cb) {
 }
 
 //allows the addition of a new restaurant
-export async function addFakeParksAndReviews() {
-  const data = await createFakeParksAndReviews();
-  for (const { parkData, ratingsData } of data) {
+export async function addFakeRestaurantsAndReviews() {
+  const data = await generateFakeRestaurantsAndReviews();
+  for (const { restaurantData, ratingsData } of data) {
     try {
       const docRef = await addDoc(
         collection(db, "restaurants"),
-        parkData
+        restaurantData
       );
 
       for (const ratingData of ratingsData) {
         await addDoc(
-          collection(db, "parks", docRef.id, "ratings"),
+          collection(db, "restaurants", docRef.id, "ratings"),
           ratingData
         );
       }

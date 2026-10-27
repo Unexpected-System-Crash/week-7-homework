@@ -3,17 +3,17 @@
 import React from "react";
 import renderStars from "@/src/components/Stars.jsx";
 
-const ParkDetails = ({
-  park,
+const RestaurantDetails = ({
+  restaurant,
   userId,
-  handleParkImage,
+  handleRestaurantImage,
   setIsOpen,
   isOpen,
   children,
 }) => {
   return (
     <section className="img__section">
-      <img src={park.photo} alt={park.name} />
+      <img src={restaurant.photo} alt={restaurant.name} />
 
       <div className="actions">
         {userId && (
@@ -27,7 +27,7 @@ const ParkDetails = ({
           />
         )}
         <label
-          onChange={(event) => handleParkImage(event.target)}
+          onChange={(event) => handleRestaurantImage(event.target)}
           htmlFor="upload-image"
           className="add"
         >
@@ -44,18 +44,18 @@ const ParkDetails = ({
 
       <div className="details__container">
         <div className="details">
-          <h2>{park.name}</h2>
+          <h2>{restaurant.name}</h2>
 
-          <div className="park__rating">
-            <ul>{renderStars(park.avgRating)}</ul>
+          <div className="restaurant__rating">
+            <ul>{renderStars(restaurant.avgRating)}</ul>
 
-            <span>({park.numRatings})</span>
+            <span>({restaurant.numRatings})</span>
           </div>
 
           <p>
-            {park.category} | {park.city}
+            {restaurant.category} | {restaurant.city}
           </p>
-          <p>{"$".repeat(park.price)}</p>
+          <p>{"$".repeat(restaurant.price)}</p>
           {children}
         </div>
       </div>
@@ -63,4 +63,4 @@ const ParkDetails = ({
   );
 };
 
-export default ParkDetails;
+export default RestaurantDetails;
