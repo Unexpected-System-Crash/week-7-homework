@@ -7,9 +7,9 @@ import { getFirestore } from "firebase/firestore";
 //Uses Gemini to summarize a restaurant's reviews
 export async function GeminiSummary({ parkId }) {
   const { firebaseServerApp } = await getAuthenticatedAppForUser();
-  const reviews = await getReviewsByRestaurantId(
+  const reviews = await getReviewsByParkId(
     getFirestore(firebaseServerApp),
-    restaurantId
+    parkId
   );
 
   const reviewSeparator = "@";
