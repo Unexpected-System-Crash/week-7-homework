@@ -7,7 +7,7 @@ import { React, useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { getParkSnapshotById } from "@/src/lib/firebase/firestore.js";
 import { useUser } from "@/src/lib/getUser";
-import ParkDetails from "@/src/components/ParkDetails.jsx";
+import ParkDetails from "@/src/components/parkDetails.jsx";
 import { updateParkImage } from "@/src/lib/firebase/storage.js";
 
 const ReviewDialog = dynamic(() => import("@/src/components/ReviewDialog.jsx"));
