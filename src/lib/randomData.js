@@ -3,7 +3,7 @@
 // menu in the top right corner and select "Add random data"
 
 export const randomData = {
-  restaurantNames: [
+  parkNames: [
     "Gemstone Falls",
     "Shining Sea",
     "Crystal Cove",
@@ -14,19 +14,19 @@ export const randomData = {
     "Phoenix Ridge",
     "Greenshrub Park",
   ],
-  restaurantCities: [
+  parkCities: [
     "Maron",
     "Ylia",
     "Frey",
     "Sram",
     "Nauwood",
   ],
-  restaurantCategories: [
+  parkCategories: [
     "lake",
     "park",
     "trail",
   ],
-  restaurantReviews: [
+  parkReviews: [
     { text: "Great atmosphere.", rating: 5 },
     { text: "Really lets me forget the worries of my life for a while", rating: 5 },
     { text: "Visting it at night was an unforgettable experience", rating: 5 },
