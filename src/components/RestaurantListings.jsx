@@ -7,21 +7,21 @@ import Link from "next/link";
 import { React, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import renderStars from "@/src/components/Stars.jsx";
-import { getRestaurantsSnapshot } from "@/src/lib/firebase/firestore.js";
+import { getParkSnapshot } from "@/src/lib/firebase/firestore.js";
 import Filters from "@/src/components/Filters.jsx";
 
-const RestaurantItem = ({ restaurant }) => (
-  <li key={restaurant.id}>
-    <Link href={`/restaurant/${restaurant.id}`}>
-      <ActiveResturant restaurant={restaurant} />
+const ParkItem = ({ park }) => (
+  <li key={park.id}>
+    <Link href={`/park/${park.id}`}>
+      <ActivePark park={park} />
     </Link>
   </li>
 );
 
-const ActiveResturant = ({ restaurant }) => (
+const ActivePark = ({ park }) => (
   <div>
-    <ImageCover photo={restaurant.photo} name={restaurant.name} />
-    <ResturantDetails restaurant={restaurant} />
+    <ImageCover photo={park.photo} name={park.name} />
+    <ParkDetails park={park} />
   </div>
 );
 
@@ -31,32 +31,32 @@ const ImageCover = ({ photo, name }) => (
   </div>
 );
 
-const ResturantDetails = ({ restaurant }) => (
-  <div className="restaurant__details">
-    <h2>{restaurant.name}</h2>
-    <RestaurantRating restaurant={restaurant} />
-    <RestaurantMetadata restaurant={restaurant} />
+const ParkDetails = ({ park }) => (
+  <div className="park__details">
+    <h2>{park.name}</h2>
+    <ParkRating park={park} />
+    <ParkMetadata park={park} />
   </div>
 );
 
-const RestaurantRating = ({ restaurant }) => (
-  <div className="restaurant__rating">
-    <ul>{renderStars(restaurant.avgRating)}</ul>
-    <span>({restaurant.numRatings})</span>
+const ParkRating = ({ park }) => (
+  <div className="park__rating">
+    <ul>{renderStars(park.avgRating)}</ul>
+    <span>({park.numRatings})</span>
   </div>
 );
 
-const RestaurantMetadata = ({ restaurant }) => (
-  <div className="restaurant__meta">
+const ParkMetadata = ({ park }) => (
+  <div className="park__meta">
     <p>
-      {restaurant.category} | {restaurant.city}
+      {park.category} | {park.city}
     </p>
-    <p>{"$".repeat(restaurant.price)}</p>
+    <p>{"$".repeat(park.price)}</p>
   </div>
 );
 
-export default function RestaurantListings({
-  initialRestaurants,
+export default function ParkListings({
+  initialParks,
   searchParams,
 }) {
   const router = useRouter();
@@ -69,7 +69,7 @@ export default function RestaurantListings({
     sort: searchParams.sort || "",
   };
 
-  const [restaurants, setRestaurants] = useState(initialRestaurants);
+  const [parks, setParks] = useState(initialParks);
   const [filters, setFilters] = useState(initialFilters);
 
   useEffect(() => {
@@ -77,17 +77,17 @@ export default function RestaurantListings({
   }, [router, filters]);
 
   useEffect(() => {
-    return getRestaurantsSnapshot((data) => {
-      setRestaurants(data);
+    return getParkSnapshot((data) => {
+      setPark(data);
     }, filters);
   }, [filters]);
 
   return (
     <article>
       <Filters filters={filters} setFilters={setFilters} />
-      <ul className="restaurants">
-        {restaurants.map((restaurant) => (
-          <RestaurantItem key={restaurant.id} restaurant={restaurant} />
+      <ul className="parks">
+        {parks.map((park) => (
+          <RestaurantItem key={park.id} park={park} />
         ))}
       </ul>
     </article>
