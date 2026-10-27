@@ -1,5 +1,5 @@
 //import all of the important stuff
-import ParkListings from "@/src/components/ParkListings.jsx";
+import ParkListings from "@/src/components/parkListings.jsx";
 import { getPark } from "@/src/lib/firebase/firestore.js";
 import { getAuthenticatedAppForUser } from "@/src/lib/firebase/serverApp.js";
 import { getFirestore } from "firebase/firestore";

@@ -1,4 +1,4 @@
-import Park from "@/src/components/Park.jsx";
+import Park from "@/src/components/park.jsx";
 import { Suspense } from "react";
 import { getParkById } from "@/src/lib/firebase/firestore.js";
 import {
@@ -34,7 +34,7 @@ export default async function Home(props) {
         initialUserId={currentUser?.uid || ""}
       >
         <Suspense fallback={<GeminiSummarySkeleton />}>
-          <GeminiSummary restaurantId={params.id} />
+          <GeminiSummary parkId={params.id} />
         </Suspense>
       </Park>
       <Suspense
