@@ -64,10 +64,10 @@ export async function generateFakeRestaurantsAndReviews() {
         0
       ),
       price: randomNumberBetween(1, 4),
-      photo: `https://storage.googleapis.com/firestorequickstarts.appspot.com/food_${randomNumberBetween(
+      /*photo: `https://storage.googleapis.com/firestorequickstarts.appspot.com/food_${randomNumberBetween(
         1,
         22
-      )}.png`,
+      )}.png`,*/
       timestamp: restaurantTimestamp,
     };
 
