@@ -120,7 +120,7 @@ export async function getParks(db = db, filters = {}) {
   });
 }
 //gets a specific restaurant's ID ##
-export async function getParksById(db, parkId) {
+export async function getParkById(db, parkId) {
   if (!parkId) {
     console.log("Error: Invalid ID received: ", parkId);
     return;
