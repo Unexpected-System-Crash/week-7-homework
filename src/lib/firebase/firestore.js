@@ -134,7 +134,7 @@ export async function getParkById(db, parkId) {
 }
 
 //returns a snapshot of the restaurants
-export function getParksSnapshot(cb, filters = {}) {
+export function getParkSnapshot(cb, filters = {}) {
   if (typeof cb !== "function") {
     console.log("Error: The callback parameter is not a function");
     return;
